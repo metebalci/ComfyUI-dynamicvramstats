@@ -403,6 +403,7 @@ app.registerExtension({
             type: "number",
             defaultValue: DEFAULT_POLL_INTERVAL_S,
             tooltip: "How often to poll VRAM status, in seconds",
+            category: ["Dynamic VRAM Stats", "Settings"],
         },
     ],
     async setup() {
