@@ -13,11 +13,13 @@ A ComfyUI plugin that visualizes dynamic VRAM page residency in real-time.
   - **Pinned** (orange): page is in VRAM and locked for active use
 - **Draggable and resizable** panel with collapse toggle
 - **Auto-detection**: plugin disables itself if required aimdo functions are not available
-- Polls at 1 second intervals (configurable via `POLL_INTERVAL_MS` in `js/dynamicvramstats.js`)
+- Configurable poll interval via ComfyUI settings (default: 1 second)
 
 ## Requirements
 
-Requires [comfy-aimdo](https://github.com/Comfy-Org/comfy-aimdo) with per-page residency introspection API (merged to master in [`39016c9`](https://github.com/Comfy-Org/comfy-aimdo/commit/39016c98ff26c910c280244277058ccf00f9ed2d)).
+Available only on Windows and Linux with NVIDIA CUDA GPUs.
+
+Requires [comfy-aimdo](https://github.com/Comfy-Org/comfy-aimdo) with per-page residency introspection API (merged to master in [`39016c9`](https://github.com/Comfy-Org/comfy-aimdo/commit/39016c98ff26c910c280244277058ccf00f9ed2d)). This version is not yet released with ComfyUI.
 
 ## Installation
 

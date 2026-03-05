@@ -83,15 +83,21 @@ function createPanel() {
 
     // Collapse toggle
     let collapsed = false;
+    let savedHeight = null;
     collapseBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         collapsed = !collapsed;
         content.style.display = collapsed ? "none" : "block";
         collapseBtn.textContent = collapsed ? "+" : "−";
         if (collapsed) {
+            savedHeight = panel.style.height;
+            panel.style.height = "auto";
+            panel.style.resize = "none";
             header.style.borderRadius = "8px";
             header.style.borderBottom = "none";
         } else {
+            panel.style.height = savedHeight;
+            panel.style.resize = "both";
             header.style.borderRadius = "8px 8px 0 0";
             header.style.borderBottom = "1px solid #444";
         }
