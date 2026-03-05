@@ -1,6 +1,6 @@
 import { app } from "../../scripts/app.js";
 
-const POLL_INTERVAL_MS = 2000;
+const DEFAULT_POLL_INTERVAL_S = 1;
 const PAGE_SIZE_MB = 32;
 const DEFAULT_WIDTH = 280;
 const INITIAL_HEIGHT_PERCENT = 50;
@@ -67,7 +67,7 @@ function createPanel() {
         cursor: move;
         border-bottom: 1px solid #444;
     `;
-    header.innerHTML = `<span style="font-weight:bold;">VRAM Pages</span>`;
+    header.innerHTML = `<span style="font-weight:bold;">Dynamic VRAM Stats</span>`;
 
     const collapseBtn = document.createElement("span");
     collapseBtn.textContent = "−";
@@ -390,12 +390,42 @@ async function pollStatus(container) {
 
 app.registerExtension({
     name: "dynamicvramstats",
+    settings: [
+        {
+            id: "dynamicvramstats.pollInterval",
+            name: "Poll interval (seconds)",
+            type: "number",
+            defaultValue: DEFAULT_POLL_INTERVAL_S,
+            tooltip: "How often to poll VRAM status, in seconds",
+        },
+    ],
     async setup() {
+        // Check if aimdo introspection is available
+        try {
+            const resp = await fetch("/dynamicvramstats/status");
+            if (!resp.ok) return;
+            const data = await resp.json();
+            if (data.aimdo_available === false) {
+                console.warn("[dynamicvramstats] Required aimdo functions not found. Plugin disabled.");
+                return;
+            }
+            lastData = data;
+        } catch (e) {
+            return;
+        }
+
         const content = createPanel();
         const panel = content.parentElement;
 
-        await pollStatus(content);
-        setInterval(() => pollStatus(content), POLL_INTERVAL_MS);
+        let intervalId = null;
+        function startPolling() {
+            if (intervalId) clearInterval(intervalId);
+            const seconds = app.extensionManager.setting.get("dynamicvramstats.pollInterval") || DEFAULT_POLL_INTERVAL_S;
+            intervalId = setInterval(() => pollStatus(content), seconds * 1000);
+        }
+
+        renderStatus(content, lastData);
+        startPolling();
 
         // Re-render on panel resize so grids adapt to new width
         const observer = new ResizeObserver(() => {

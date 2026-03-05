@@ -13,8 +13,23 @@ log = logging.getLogger(__name__)
 
 WEB_DIRECTORY = "./js"
 
+# Check for required aimdo introspection functions
+_aimdo_available = False
+try:
+    from comfy_aimdo.model_vbar import ModelVBAR
+    _required = ["get_nr_pages", "get_watermark", "get_residency"]
+    if all(hasattr(ModelVBAR, fn) for fn in _required):
+        _aimdo_available = True
+    else:
+        missing = [fn for fn in _required if not hasattr(ModelVBAR, fn)]
+        log.warning(f"[dynamicvramstats] Required aimdo functions not found: {missing}. Plugin disabled.")
+except ImportError:
+    log.warning("[dynamicvramstats] comfy-aimdo not installed. Plugin disabled.")
+
 @PromptServer.instance.routes.get("/dynamicvramstats/status")
 async def get_vram_status(request):
+    if not _aimdo_available:
+        return web.json_response({"aimdo_available": False})
     device = comfy.model_management.get_torch_device()
     total_vram = comfy.model_management.get_total_memory(device)
     free_vram = comfy.model_management.get_free_memory(device)
