@@ -31,5 +31,5 @@ PublisherId = "metebalci"
 DisplayName = "Dynamic VRAM Stats"
 Icon = "https://raw.githubusercontent.com/metebalci/ComfyUI-dynamicvramstats/main/icon.png"
 includes = [] 
-"requires-comfyui" = ">=0.16.3"
+"requires-comfyui" = ">=0.16.4"
 
