@@ -1,7 +1,7 @@
 [project]
 name = "dynamic-vram-stats"
 description = "ComfyUI plugin to monitor Dynamic VRAM usage"
-version = "1.0.0"
+version = "1.0.1"
 license = {file = "LICENSE"} 
 classifiers = [
     # For OS-independent nodes (works on all operating systems)
