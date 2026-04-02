@@ -19,7 +19,7 @@ A ComfyUI plugin that visualizes dynamic VRAM page residency in real-time.
 
 Available only on Windows and Linux with NVIDIA CUDA GPUs.
 
-Requires [comfy-aimdo](https://github.com/Comfy-Org/comfy-aimdo) with per-page residency introspection API (merged to master in [`39016c9`](https://github.com/Comfy-Org/comfy-aimdo/commit/39016c98ff26c910c280244277058ccf00f9ed2d)). This version is not yet released with ComfyUI.
+Use the latest ComfyUI. It requires [comfy-aimdo](https://github.com/Comfy-Org/comfy-aimdo) with per-page residency introspection API (merged to master in [`39016c9`](https://github.com/Comfy-Org/comfy-aimdo/commit/39016c98ff26c910c280244277058ccf00f9ed2d)). This is integrated to ComfyUI [`v0.17.0`](https://github.com/Comfy-Org/ComfyUI/pull/12840) as comfy-aimdo 0.2.9.
 
 ## Installation
 
